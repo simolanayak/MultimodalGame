@@ -444,12 +444,12 @@ def xavier_normal(tensor, gain=1):
         >>> nninit.xavier_normal(w, gain=np.sqrt(2.0))
     """
     if isinstance(tensor, Variable):
-        td = tensor.data
+        xavier_normal(tensor.data, gain)
+        return tensor
     else:
-        td = tensor
-    fan_in, fan_out = _calculate_fan_in_and_fan_out(td)
-    std = gain * np.sqrt(2.0 / (fan_in + fan_out))
-    return td.normal_(0, std)
+        fan_in, fan_out = _calculate_fan_in_and_fan_out(tensor)
+        std = gain * np.sqrt(2.0 / (fan_in + fan_out))
+        return td.normal_(0, std)
 
 
 def build_mask(region_str, size):
